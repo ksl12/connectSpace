@@ -28,10 +28,6 @@ const getUser = (userID) => {
     return onlineUsers.find((user) => user.userID == userID);
 };
 
-const getAdmin = (adminID) => {
-    return admin.find((ad) => ad.adminID == adminID);
-};
-
 
 const socketServer = (server) => {
     // create server
@@ -165,13 +161,6 @@ const socketServer = (server) => {
         })
 
         // 
-        // socket.on("getActiveUsers", () => {
-        //     const totalActive = onlineUsers.length;
-        //     // console.log(admin, "4")
-        //     io
-        //       .to(admin[0].socketId)
-        //       .emit("getActiveUsersToClient", totalActive);
-        // })
         //disconnect
         socket.on("disconnect", () => {
             if(admin.length > 0) {

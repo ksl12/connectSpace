@@ -1,10 +1,7 @@
-import fs from "fs"
 import  express  from "express";
 import cors from "cors";
-import multer from "multer";
 import cookieParser from "cookie-parser";
 import {createServer} from "http"
-import {fileTypeFromFile} from 'file-type';
 import "dotenv/config"
 
 
@@ -28,53 +25,6 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
-// multer
-const whitelist = [
-    'image/png',
-    'image/jpeg',
-    'image/jpg',
-    'image/webp'
-]
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, "../client/public/upload")
-    },
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + file.originalname)
-    }
-})
-
-
-const upload = multer({ 
-    storage: storage,
-    fileFilter: (req, file, cb) => {
-        if (!whitelist.includes(file.mimetype)) {
-            cb(null, false)
-            return cb(new Error("file not allowed"))
-        }
-        cb(null, true)
-    }
-})
-
-app.post("/api/upload", upload.single("file"), async (req, res) => {
-    const meta = await fileTypeFromFile(req.file.path)
-    if (!whitelist.includes(meta.mime)) {
-        return res.status(400).json({messages: "File không hợp lệ"})
-    }
-    const file = req.file
-    res.status(200).json(file.filename)
-})
-
-app.delete("/api/delete/:filename", (req, res) => {
-    const filePath = "../client/public/upload/" + req.params.filename;
-
-    fs.unlink(filePath, err => {
-        if (err) {
-            return res.status(500).send('An error occurred while trying to delete the file.');
-        }
-        res.send('File deleted successfully.');
-    });    
-});
 
 //endPoint
 app.use("/api/auth", authRoutes)
