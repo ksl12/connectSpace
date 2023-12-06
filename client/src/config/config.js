@@ -28,12 +28,12 @@ export const createApiAuthClient = (baseURL, token) => {
     });
 };
 
-export const createApiImageClient = (baseURL) => {
+export const createApiImageClient = (baseURL, token) => {
     return axios.create({
         baseURL,
         headers: {
             "Content-Type": "multipart/json",
-            // "Authorization": `Bearer ${token}` 
+            "Authorization": `Bearer ${token}` 
         },
         withCredentials: true
     });

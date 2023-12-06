@@ -21,10 +21,10 @@ export const deletePost = async (id, token) => {
     return (await createApiAuthClient("/api/post", token).delete("/deletePost/" + `${id}`)).data
 }
 
-export const addImage = async (data) => {
-    return (await createApiImageClient("/api/upload").post("/", data)).data
+export const addImage = async (data, token) => {
+    return (await createApiImageClient("/api/upload", token).post("/", data)).data
 }
 
-export const deleteImage = async (filename) => {
-    return (await createApiClient("/api/delete").delete("/" + `${filename}`)).data
+export const deleteImage = async (filename, token) => {
+    return (await createApiAuthClient("/api/delete", token).delete("/" + `${filename}`)).data
 }
