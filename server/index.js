@@ -16,6 +16,7 @@ import notificationRoutes from "./src/routes/notification.js"
 import postSavedRoutes from "./src/routes/postSaved.js"
 import adminRoutes from "./src/routes/admin.js"
 import socketServer from "./socketServer.js"
+import uploadRoutes from "./src/controllers/upload.js"
 
 const app = express()
 
@@ -36,6 +37,7 @@ app.use("/api/friend", friendRoutes)
 app.use("/api/notification", notificationRoutes)
 app.use("/api/postSaved", postSavedRoutes)
 app.use("/api/admin", adminRoutes)
+app.use("/api/image", uploadRoutes)
 
 //Setup socketio server
 const httpServer = createServer(app)

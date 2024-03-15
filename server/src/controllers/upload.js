@@ -14,7 +14,7 @@ const whitelist = [
     'image/webp'
 ]
 
-app.post("/api/upload", authVerify , multerConfig.upload.single("file"), async (req, res) => {
+router.post("/upload", authVerify , multerConfig.upload.single("file"), async (req, res) => {
     const meta = await fileTypeFromFile(req.file.path)
     if (!whitelist.includes(meta.mime)) {
         return res.status(400).json({messages: "File không hợp lệ"})
@@ -23,7 +23,7 @@ app.post("/api/upload", authVerify , multerConfig.upload.single("file"), async (
     res.status(200).json(file.filename)
 })
 
-app.delete("/api/delete/:filename", authVerify , (req, res) => {
+router.delete("/delete/:filename", authVerify , async (req, res) => {
     const filePath = "../client/public/upload/" + req.params.filename;
 
     fs.unlink(filePath, err => {

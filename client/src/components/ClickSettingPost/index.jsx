@@ -36,7 +36,7 @@ const ClickSettingPost = ({userID, postID, imageURL, reloadData, isDetail}) => {
     const handleCloseSetting = async() => {
         await deletePost(postID, token)
         if(imageURL) {
-            await deleteImage(imageURL)
+            await deleteImage(imageURL, token)
         }
         handleClose()
         if(isDetail !== 1) {

@@ -49,7 +49,7 @@ const login = async (req, res) => {
             return res.status(400).json({messages: "Tài Khoản không tồn tại"})
         }
         
-        const check = bcrypt.compare(password, user[0].password)
+        const check = await bcrypt.compare(password, user[0].password)
         if(!check) return res.status(400).json({messages: "Tài khoản hoặc mật khẩu không đúng"})
         
         const role = await findRoleUser(user[0].user_ID)
@@ -89,7 +89,7 @@ const login = async (req, res) => {
 const refreshAccessToken = async (req, res) => {
     try {
         const rf_token = req.cookies.refresh_token
-
+        // console.log(rf_token)
         if(!rf_token) {
             return res.status(401).json({messages: "Please login again"})
         }
@@ -154,7 +154,7 @@ const logout = async (req, res) => {
 
 const createAccessToken = (payload) => {
     return jwt.sign(payload, process.env.ACCESS_KEY, {
-        expiresIn: "1d"
+        expiresIn: "30d"
     })
 }
 

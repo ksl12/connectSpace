@@ -47,26 +47,23 @@ export const loginValidation = async (req, res, next) => {
     }
 }
 
-export const authVerify = async (req, res, next) => {
-    try {
-        let token = req.header("Authorization");
+export const authVerify = (req, res, next) => {
 
-        if(!token){
-            return res.status(401).json({ msg: "You are not authenticated" })
-        }
-        if (token === null || token == " ") {
-            return res.status(401).json({ msg: "You are not authenticated" })
-        }        
+    let token = req.header("Authorization");
+    if(!token || token === null || token == " "){
+        return res.status(403).json({ msg: "Forbidden" })
+    } 
+    else {
         if(token.startsWith("Bearer")) {
             token = token.split(" ")[1]
         }
-        const verified = jwt.verify(token, process.env.ACCESS_KEY);
-        if (!verified) {
-            return res.status(403).json({ msg: "Token is not valid" });
-        }
-        next();
-    } catch (err) {
-        return res.status(500).json({msg: err.message});
-    }
+        jwt.verify(token, process.env.ACCESS_KEY, (err, decode) => {
+            // console.log(err.TokenExpiredError)
+            if (err) {
+                return res.status(401).json({ message: "Jwt is expired"});
+            } 
+            next();
+        })
+    }    
 }
 

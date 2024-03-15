@@ -18,7 +18,7 @@ const DeletePost = ({userID, postID, setReloadData, reloadData, imageURL}) => {
     const DeletePostAdmin = async () => {
         await deletePost(postID, token)
         if(imageURL) {
-            await deleteImage(imageURL)
+            await deleteImage(imageURL, token)
         }
         adminSocket.emit("adminDeletePost", (userID))
         handleClose()

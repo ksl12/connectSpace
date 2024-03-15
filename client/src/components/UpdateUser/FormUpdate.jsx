@@ -73,7 +73,7 @@ const FormUpdate = ({handleClose, handleReload}) => {
         try {
             const formData = new FormData()
             formData.append("file", avatarPreview);
-            const res = await addImage(formData)
+            const res = await addImage(formData, token)
             return res
         } catch (error) {
             console.log(error)
@@ -102,7 +102,7 @@ const FormUpdate = ({handleClose, handleReload}) => {
             if(res.messages == "Update user successful") {
                 if(avatarPreview !== null) {
                     if(user.avatar) {
-                        await deleteImage(user.avatar)
+                        await deleteImage(user.avatar, token)
                     }
                 }
                 let newUser = await getInfoUpdate(user.user_ID, token)

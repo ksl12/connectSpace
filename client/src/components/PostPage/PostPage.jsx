@@ -92,7 +92,7 @@ const PostPage = () => {
         try {
             const formData = new FormData()
             formData.append("file", image);
-            const res = await addImage(formData)
+            const res = await addImage(formData, token)
             return res
         } catch (error) {
             console.log(error)

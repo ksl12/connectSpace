@@ -11,3 +11,7 @@ export const login = async (data) => {
 export const logout = async () => {
     return (await createApiClient("/api/auth").post("/logout")).data
 }
+
+export const refreshToken = async () => {
+    return (await createApiClient("/api/auth").post("/refresh_token", { withCredentials: true })).data
+}
